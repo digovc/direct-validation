@@ -10,9 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "files": [
-    "lib"
-  ],
   "devDependencies": {
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
