@@ -37,7 +37,7 @@ Just import or require _validate_ to your code scope and call _validate()_ metho
 import validate from 'direct-validation';
 
 var myValue = "foo";
-validate(myValue).notBeNullOrWhiteSpace().notBe("bar").be("foo"); // etc
+validate(myValue).notEmptyOrWhitespace().notEquals("bar").equals("foo"); // etc
 ```
 
 All validation methods receives a _message_ parameter to use a custom fail message.
