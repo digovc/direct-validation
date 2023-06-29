@@ -22,16 +22,6 @@ export default class Validation {
     return this;
   }
 
-  creditCard(message = this.defaultMessage): Validation {
-    this.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/, message);
-    return this;
-  }
-
-  email(message = this.defaultMessage): Validation {
-    this.matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, message);
-    return this;
-  }
-
   empty(message = this.defaultMessage): Validation {
     if (this.value && this.value !== '' && this.value.length !== 0) {
       throw new Error(message ?? 'Value must be empty');
@@ -104,11 +94,21 @@ export default class Validation {
     return this;
   }
 
+  isCreditCard(message = this.defaultMessage): Validation {
+    this.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/, message);
+    return this;
+  }
+
   isDate(message = this.defaultMessage): Validation {
     if (isNaN(Date.parse(this.value))) {
       throw new Error(message ?? 'Value must be a date');
     }
 
+    return this;
+  }
+
+  isEmail(message = this.defaultMessage): Validation {
+    this.matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, message);
     return this;
   }
 
