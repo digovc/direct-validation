@@ -1,6 +1,6 @@
 {
   "name": "direct-validation",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple JavaScript/TypeScript lib to make validation in fluent way with exceptions.",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "files": [
-    "lib"
-  ],
   "devDependencies": {
     "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
