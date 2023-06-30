@@ -6,7 +6,7 @@ export default class Validation {
     this.isNumber(message);
 
     if (this.value < min || this.value > max) {
-      throw new Error(message ?? `Value must be between ${ min } and ${ max }`);
+      throw new Error(message || `Value must be between ${ min } and ${ max }`);
     }
 
     return this;
@@ -16,7 +16,7 @@ export default class Validation {
     this.notNull(message);
 
     if (!this.value.includes(value)) {
-      throw new Error(message ?? `Value must contain ${ value }`);
+      throw new Error(message || `Value must contain ${ value }`);
     }
 
     return this;
@@ -24,7 +24,7 @@ export default class Validation {
 
   empty(message = this.message): Validation {
     if (this.value && this.value !== '' && this.value.length !== 0) {
-      throw new Error(message ?? 'Value must be empty');
+      throw new Error(message || 'Value must be empty');
     }
 
     return this;
@@ -34,7 +34,7 @@ export default class Validation {
     this.empty(message);
 
     if (this.value.trim().length !== 0) {
-      throw new Error(message ?? 'Value must be empty or whitespace');
+      throw new Error(message || 'Value must be empty or whitespace');
     }
 
     return this;
@@ -44,7 +44,7 @@ export default class Validation {
     this.notNull(message);
 
     if (!this.value.endsWith(value)) {
-      throw new Error(message ?? `Value must end with ${ value }`);
+      throw new Error(message || `Value must end with ${ value }`);
     }
 
     return this;
@@ -52,7 +52,7 @@ export default class Validation {
 
   equals(value: any, message = this.message): Validation {
     if (this.value !== value) {
-      throw new Error(message ?? 'Value must be equal');
+      throw new Error(message || 'Value must be equal');
     }
 
     return this;
@@ -60,7 +60,7 @@ export default class Validation {
 
   equivalent(value: any, message = this.message): Validation {
     if (this.value?.toLowerCase() != value?.toLowerCase()) {
-      throw new Error(message ?? 'Value must be equivalent');
+      throw new Error(message || 'Value must be equivalent');
     }
 
     return this;
@@ -70,7 +70,7 @@ export default class Validation {
     this.isNumber(message);
 
     if (this.value <= value) {
-      throw new Error(message ?? `Value must be greater than ${ value }`);
+      throw new Error(message || `Value must be greater than ${ value }`);
     }
 
     return this;
@@ -80,7 +80,7 @@ export default class Validation {
     this.isNumber(message);
 
     if (this.value < value) {
-      throw new Error(message ?? `Value must be greater than or equal to ${ value }`);
+      throw new Error(message || `Value must be greater than or equal to ${ value }`);
     }
 
     return this;
@@ -90,7 +90,7 @@ export default class Validation {
     this.isArray(message);
 
     if (!this.value.includes(value)) {
-      throw new Error(message ?? `Value must have item ${ value }`);
+      throw new Error(message || `Value must have item ${ value }`);
     }
 
     return this;
@@ -98,7 +98,7 @@ export default class Validation {
 
   hasProperty(property: string, message = this.message): Validation {
     if (!this.value.hasOwnProperty(property)) {
-      throw new Error(message ?? `Value must have property ${ property }`);
+      throw new Error(message || `Value must have property ${ property }`);
     }
 
     return this;
@@ -106,7 +106,7 @@ export default class Validation {
 
   isArray(message = this.message): Validation {
     if (!Array.isArray(this.value)) {
-      throw new Error(message ?? 'Value must be an array');
+      throw new Error(message || 'Value must be an array');
     }
 
     return this;
@@ -119,7 +119,7 @@ export default class Validation {
 
   isDate(message = this.message): Validation {
     if (isNaN(Date.parse(this.value))) {
-      throw new Error(message ?? 'Value must be a date');
+      throw new Error(message || 'Value must be a date');
     }
 
     return this;
@@ -132,7 +132,7 @@ export default class Validation {
 
   isFalse(message = this.message): Validation {
     if (!this.value) {
-      throw new Error(message ?? 'Value must be false');
+      throw new Error(message || 'Value must be false');
     }
 
     return this;
@@ -140,7 +140,7 @@ export default class Validation {
 
   isNull(message = this.message): Validation {
     if (this.value != null) {
-      throw new Error(message ?? 'Value must be null');
+      throw new Error(message || 'Value must be null');
     }
 
     return this;
@@ -148,7 +148,7 @@ export default class Validation {
 
   isNumber(message = this.message): Validation {
     if (isNaN(this.value)) {
-      throw new Error(message ?? 'Value must be a number');
+      throw new Error(message || 'Value must be a number');
     }
 
     return this;
@@ -163,7 +163,7 @@ export default class Validation {
 
   isTrue(message = this.message): Validation {
     if (!this.value) {
-      throw new Error(message ?? 'Value must be true');
+      throw new Error(message || 'Value must be true');
     }
 
     return this;
@@ -171,7 +171,7 @@ export default class Validation {
 
   length(length: number, message = this.message): Validation {
     if (this.value.length !== length) {
-      throw new Error(message ?? `Value must have length ${ length }`);
+      throw new Error(message || `Value must have length ${ length }`);
     }
 
     return this;
@@ -181,7 +181,7 @@ export default class Validation {
     this.isNumber(message);
 
     if (this.value >= value) {
-      throw new Error(message ?? `Value must be less than ${ value }`);
+      throw new Error(message || `Value must be less than ${ value }`);
     }
 
     return this;
@@ -191,7 +191,7 @@ export default class Validation {
     this.isNumber(message);
 
     if (this.value > value) {
-      throw new Error(message ?? `Value must be less than or equal to ${ value }`);
+      throw new Error(message || `Value must be less than or equal to ${ value }`);
     }
 
     return this;
@@ -199,7 +199,7 @@ export default class Validation {
 
   matches(regex: RegExp, message = this.message): Validation {
     if (!regex.test(this.value)) {
-      throw new Error(message ?? 'Value must match regex');
+      throw new Error(message || 'Value must match regex');
     }
 
     return this;
@@ -207,7 +207,7 @@ export default class Validation {
 
   maxLength(length: number, message = this.message): Validation {
     if (this.value.length > length) {
-      throw new Error(message ?? `Value must have max length ${ length }`);
+      throw new Error(message || `Value must have max length ${ length }`);
     }
 
     return this;
@@ -215,7 +215,7 @@ export default class Validation {
 
   minLength(length: number, message = this.message): Validation {
     if (this.value.length < length) {
-      throw new Error(message ?? `Value must have min length ${ length }`);
+      throw new Error(message || `Value must have min length ${ length }`);
     }
 
     return this;
@@ -225,7 +225,7 @@ export default class Validation {
     this.notNull(message);
 
     if (this.value.includes(value)) {
-      throw new Error(message ?? `Value cannot contain ${ value }`);
+      throw new Error(message || `Value cannot contain ${ value }`);
     }
 
     return this;
@@ -233,7 +233,7 @@ export default class Validation {
 
   notFalse(message = this.message): Validation {
     if (!this.value) {
-      throw new Error(message ?? 'Value cannot be false');
+      throw new Error(message || 'Value cannot be false');
     }
 
     return this;
@@ -241,7 +241,7 @@ export default class Validation {
 
   notEmpty(message = this.message): Validation {
     if (!this.value || this.value === '' || this.value.length === 0) {
-      throw new Error(message ?? 'Value cannot be empty');
+      throw new Error(message || 'Value cannot be empty');
     }
 
     return this;
@@ -251,7 +251,7 @@ export default class Validation {
     this.notEmpty(message);
 
     if (this.value.trim().length === 0) {
-      throw new Error(message ?? 'Value cannot be empty or whitespace');
+      throw new Error(message || 'Value cannot be empty or whitespace');
     }
 
     return this;
@@ -259,7 +259,7 @@ export default class Validation {
 
   notEquals(value: any, message = this.message): Validation {
     if (this.value === value) {
-      throw new Error(message ?? 'Value cannot be equal');
+      throw new Error(message || 'Value cannot be equal');
     }
 
     return this;
@@ -267,7 +267,7 @@ export default class Validation {
 
   notEquivalent(value: any, message = this.message): Validation {
     if (this.value?.toLowerCase() == value?.toLowerCase()) {
-      throw new Error(message ?? 'Value cannot be equivalent');
+      throw new Error(message || 'Value cannot be equivalent');
     }
 
     return this;
@@ -277,7 +277,7 @@ export default class Validation {
     this.isArray(message);
 
     if (this.value.includes(value)) {
-      throw new Error(message ?? `Value cannot have item ${ value }`);
+      throw new Error(message || `Value cannot have item ${ value }`);
     }
 
     return this;
@@ -285,7 +285,7 @@ export default class Validation {
 
   notNull(message = this.message): Validation {
     if (this.value == null) {
-      throw new Error(message ?? 'Value cannot be null');
+      throw new Error(message || 'Value cannot be null');
     }
 
     return this;
@@ -293,7 +293,7 @@ export default class Validation {
 
   notSameAs(value: any, message = this.message): Validation {
     if (this.value === value) {
-      throw new Error(message ?? 'Value cannot be same as');
+      throw new Error(message || 'Value cannot be same as');
     }
 
     return this;
@@ -301,7 +301,7 @@ export default class Validation {
 
   notTrue(message = this.message): Validation {
     if (this.value) {
-      throw new Error(message ?? 'Value cannot be true');
+      throw new Error(message || 'Value cannot be true');
     }
 
     return this;
@@ -309,7 +309,7 @@ export default class Validation {
 
   oneOf(values: any[], message = this.message): Validation {
     if (!values.includes(this.value)) {
-      throw new Error(message ?? 'Value must be one of the specified values');
+      throw new Error(message || 'Value must be one of the specified values');
     }
 
     return this;
@@ -317,7 +317,7 @@ export default class Validation {
 
   predicate(predicate: (value: any) => boolean, message = this.message): Validation {
     if (!predicate(this.value)) {
-      throw new Error(message ?? 'Value must satisfy predicate');
+      throw new Error(message || 'Value must satisfy predicate');
     }
 
     return this;
@@ -327,7 +327,7 @@ export default class Validation {
     this.notEmpty(value);
 
     if (!this.value.startsWith(value)) {
-      throw new Error(message ?? `Value must start with ${ value }`);
+      throw new Error(message || `Value must start with ${ value }`);
     }
 
     return this;
