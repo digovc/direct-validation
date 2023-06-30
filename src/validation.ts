@@ -1,8 +1,8 @@
 export default class Validation {
-  constructor(private value: any, private defaultMessage?: string) {
+  constructor(private value: any, private message?: null | string) {
   }
 
-  between(min: number, max: number, message = this.defaultMessage): Validation {
+  between(min: number, max: number, message = this.message): Validation {
     this.isNumber(message);
 
     if (this.value < min || this.value > max) {
@@ -12,7 +12,7 @@ export default class Validation {
     return this;
   }
 
-  contains(value: any, message = this.defaultMessage): Validation {
+  contains(value: any, message = this.message): Validation {
     this.notNull(message);
 
     if (!this.value.includes(value)) {
@@ -22,7 +22,7 @@ export default class Validation {
     return this;
   }
 
-  empty(message = this.defaultMessage): Validation {
+  empty(message = this.message): Validation {
     if (this.value && this.value !== '' && this.value.length !== 0) {
       throw new Error(message ?? 'Value must be empty');
     }
@@ -30,7 +30,7 @@ export default class Validation {
     return this;
   }
 
-  emptyOrWhitespace(message = this.defaultMessage): Validation {
+  emptyOrWhitespace(message = this.message): Validation {
     this.empty(message);
 
     if (this.value.trim().length !== 0) {
@@ -40,7 +40,7 @@ export default class Validation {
     return this;
   }
 
-  endsWith(value: any, message = this.defaultMessage): Validation {
+  endsWith(value: any, message = this.message): Validation {
     this.notNull(message);
 
     if (!this.value.endsWith(value)) {
@@ -50,7 +50,7 @@ export default class Validation {
     return this;
   }
 
-  equals(value: any, message = this.defaultMessage): Validation {
+  equals(value: any, message = this.message): Validation {
     if (this.value !== value) {
       throw new Error(message ?? 'Value must be equal');
     }
@@ -58,7 +58,7 @@ export default class Validation {
     return this;
   }
 
-  equivalent(value: any, message = this.defaultMessage): Validation {
+  equivalent(value: any, message = this.message): Validation {
     if (this.value?.toLowerCase() != value?.toLowerCase()) {
       throw new Error(message ?? 'Value must be equivalent');
     }
@@ -66,7 +66,7 @@ export default class Validation {
     return this;
   }
 
-  greaterThan(value: any, message = this.defaultMessage): Validation {
+  greaterThan(value: any, message = this.message): Validation {
     this.isNumber(message);
 
     if (this.value <= value) {
@@ -76,7 +76,7 @@ export default class Validation {
     return this;
   }
 
-  greaterThanOrEqual(value: any, message = this.defaultMessage): Validation {
+  greaterThanOrEqual(value: any, message = this.message): Validation {
     this.isNumber(message);
 
     if (this.value < value) {
@@ -86,7 +86,7 @@ export default class Validation {
     return this;
   }
 
-  hasValue(value: any, message = this.defaultMessage): Validation {
+  hasValue(value: any, message = this.message): Validation {
     this.isArray(message);
 
     if (!this.value.includes(value)) {
@@ -96,7 +96,7 @@ export default class Validation {
     return this;
   }
 
-  hasProperty(property: string, message = this.defaultMessage): Validation {
+  hasProperty(property: string, message = this.message): Validation {
     if (!this.value.hasOwnProperty(property)) {
       throw new Error(message ?? `Value must have property ${ property }`);
     }
@@ -104,7 +104,7 @@ export default class Validation {
     return this;
   }
 
-  isArray(message = this.defaultMessage): Validation {
+  isArray(message = this.message): Validation {
     if (!Array.isArray(this.value)) {
       throw new Error(message ?? 'Value must be an array');
     }
@@ -112,12 +112,12 @@ export default class Validation {
     return this;
   }
 
-  isCreditCard(message = this.defaultMessage): Validation {
+  isCreditCard(message = this.message): Validation {
     this.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/, message);
     return this;
   }
 
-  isDate(message = this.defaultMessage): Validation {
+  isDate(message = this.message): Validation {
     if (isNaN(Date.parse(this.value))) {
       throw new Error(message ?? 'Value must be a date');
     }
@@ -125,12 +125,12 @@ export default class Validation {
     return this;
   }
 
-  isEmail(message = this.defaultMessage): Validation {
+  isEmail(message = this.message): Validation {
     this.matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, message);
     return this;
   }
 
-  isFalse(message = this.defaultMessage): Validation {
+  isFalse(message = this.message): Validation {
     if (!this.value) {
       throw new Error(message ?? 'Value must be false');
     }
@@ -138,7 +138,7 @@ export default class Validation {
     return this;
   }
 
-  isNull(message = this.defaultMessage): Validation {
+  isNull(message = this.message): Validation {
     if (this.value != null) {
       throw new Error(message ?? 'Value must be null');
     }
@@ -146,7 +146,7 @@ export default class Validation {
     return this;
   }
 
-  isNumber(message = this.defaultMessage): Validation {
+  isNumber(message = this.message): Validation {
     if (isNaN(this.value)) {
       throw new Error(message ?? 'Value must be a number');
     }
@@ -154,14 +154,14 @@ export default class Validation {
     return this;
   }
 
-  isRequired(message = this.defaultMessage): Validation {
+  isRequired(message = this.message): Validation {
     this.notNull(message);
     this.notEmpty(message);
     this.minLength(1, message);
     return this;
   }
 
-  isTrue(message = this.defaultMessage): Validation {
+  isTrue(message = this.message): Validation {
     if (!this.value) {
       throw new Error(message ?? 'Value must be true');
     }
@@ -169,7 +169,7 @@ export default class Validation {
     return this;
   }
 
-  length(length: number, message = this.defaultMessage): Validation {
+  length(length: number, message = this.message): Validation {
     if (this.value.length !== length) {
       throw new Error(message ?? `Value must have length ${ length }`);
     }
@@ -177,7 +177,7 @@ export default class Validation {
     return this;
   }
 
-  lessThan(value: any, message = this.defaultMessage): Validation {
+  lessThan(value: any, message = this.message): Validation {
     this.isNumber(message);
 
     if (this.value >= value) {
@@ -187,7 +187,7 @@ export default class Validation {
     return this;
   }
 
-  lessThanOrEqual(value: any, message = this.defaultMessage): Validation {
+  lessThanOrEqual(value: any, message = this.message): Validation {
     this.isNumber(message);
 
     if (this.value > value) {
@@ -197,7 +197,7 @@ export default class Validation {
     return this;
   }
 
-  matches(regex: RegExp, message = this.defaultMessage): Validation {
+  matches(regex: RegExp, message = this.message): Validation {
     if (!regex.test(this.value)) {
       throw new Error(message ?? 'Value must match regex');
     }
@@ -205,7 +205,7 @@ export default class Validation {
     return this;
   }
 
-  maxLength(length: number, message = this.defaultMessage): Validation {
+  maxLength(length: number, message = this.message): Validation {
     if (this.value.length > length) {
       throw new Error(message ?? `Value must have max length ${ length }`);
     }
@@ -213,7 +213,7 @@ export default class Validation {
     return this;
   }
 
-  minLength(length: number, message = this.defaultMessage): Validation {
+  minLength(length: number, message = this.message): Validation {
     if (this.value.length < length) {
       throw new Error(message ?? `Value must have min length ${ length }`);
     }
@@ -221,7 +221,7 @@ export default class Validation {
     return this;
   }
 
-  notContains(value: any, message = this.defaultMessage): Validation {
+  notContains(value: any, message = this.message): Validation {
     this.notNull(message);
 
     if (this.value.includes(value)) {
@@ -231,7 +231,7 @@ export default class Validation {
     return this;
   }
 
-  notFalse(message = this.defaultMessage): Validation {
+  notFalse(message = this.message): Validation {
     if (!this.value) {
       throw new Error(message ?? 'Value cannot be false');
     }
@@ -239,7 +239,7 @@ export default class Validation {
     return this;
   }
 
-  notEmpty(message = this.defaultMessage): Validation {
+  notEmpty(message = this.message): Validation {
     if (!this.value || this.value === '' || this.value.length === 0) {
       throw new Error(message ?? 'Value cannot be empty');
     }
@@ -247,7 +247,7 @@ export default class Validation {
     return this;
   }
 
-  notEmptyOrWhitespace(message = this.defaultMessage): Validation {
+  notEmptyOrWhitespace(message = this.message): Validation {
     this.notEmpty(message);
 
     if (this.value.trim().length === 0) {
@@ -257,7 +257,7 @@ export default class Validation {
     return this;
   }
 
-  notEquals(value: any, message = this.defaultMessage): Validation {
+  notEquals(value: any, message = this.message): Validation {
     if (this.value === value) {
       throw new Error(message ?? 'Value cannot be equal');
     }
@@ -265,7 +265,7 @@ export default class Validation {
     return this;
   }
 
-  notEquivalent(value: any, message = this.defaultMessage): Validation {
+  notEquivalent(value: any, message = this.message): Validation {
     if (this.value?.toLowerCase() == value?.toLowerCase()) {
       throw new Error(message ?? 'Value cannot be equivalent');
     }
@@ -273,7 +273,7 @@ export default class Validation {
     return this;
   }
 
-  notHasValue(value: any, message = this.defaultMessage): Validation {
+  notHasValue(value: any, message = this.message): Validation {
     this.isArray(message);
 
     if (this.value.includes(value)) {
@@ -283,7 +283,7 @@ export default class Validation {
     return this;
   }
 
-  notNull(message = this.defaultMessage): Validation {
+  notNull(message = this.message): Validation {
     if (this.value == null) {
       throw new Error(message ?? 'Value cannot be null');
     }
@@ -291,7 +291,7 @@ export default class Validation {
     return this;
   }
 
-  notSameAs(value: any, message = this.defaultMessage): Validation {
+  notSameAs(value: any, message = this.message): Validation {
     if (this.value === value) {
       throw new Error(message ?? 'Value cannot be same as');
     }
@@ -299,7 +299,7 @@ export default class Validation {
     return this;
   }
 
-  notTrue(message = this.defaultMessage): Validation {
+  notTrue(message = this.message): Validation {
     if (this.value) {
       throw new Error(message ?? 'Value cannot be true');
     }
@@ -307,7 +307,7 @@ export default class Validation {
     return this;
   }
 
-  oneOf(values: any[], message = this.defaultMessage): Validation {
+  oneOf(values: any[], message = this.message): Validation {
     if (!values.includes(this.value)) {
       throw new Error(message ?? 'Value must be one of the specified values');
     }
@@ -315,7 +315,7 @@ export default class Validation {
     return this;
   }
 
-  predicate(predicate: (value: any) => boolean, message = this.defaultMessage): Validation {
+  predicate(predicate: (value: any) => boolean, message = this.message): Validation {
     if (!predicate(this.value)) {
       throw new Error(message ?? 'Value must satisfy predicate');
     }
@@ -323,7 +323,7 @@ export default class Validation {
     return this;
   }
 
-  startsWith(value: any, message = this.defaultMessage): Validation {
+  startsWith(value: any, message = this.message): Validation {
     this.notEmpty(value);
 
     if (!this.value.startsWith(value)) {
