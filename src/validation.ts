@@ -162,7 +162,7 @@ export default class Validation {
   }
 
   isTrue(message = this.defaultMessage): Validation {
-    if (this.value) {
+    if (!this.value) {
       throw new Error(message ?? 'Value must be true');
     }
 
