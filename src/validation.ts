@@ -96,6 +96,14 @@ export default class Validation {
     return this;
   }
 
+  hasProperty(property: string, message = this.defaultMessage): Validation {
+    if (!this.value.hasOwnProperty(property)) {
+      throw new Error(message ?? `Value must have property ${ property }`);
+    }
+
+    return this;
+  }
+
   isArray(message = this.defaultMessage): Validation {
     if (!Array.isArray(this.value)) {
       throw new Error(message ?? 'Value must be an array');
