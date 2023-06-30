@@ -40,6 +40,16 @@ export default class Validation {
     return this;
   }
 
+  endsWith(value: any, message = this.defaultMessage): Validation {
+    this.notNull(message);
+
+    if (!this.value.endsWith(value)) {
+      throw new Error(message ?? `Value must end with ${ value }`);
+    }
+
+    return this;
+  }
+
   equals(value: any, message = this.defaultMessage): Validation {
     if (this.value !== value) {
       throw new Error(message ?? 'Value must be equal');
@@ -76,7 +86,7 @@ export default class Validation {
     return this;
   }
 
-  haveValue(value: any, message = this.defaultMessage): Validation {
+  hasValue(value: any, message = this.defaultMessage): Validation {
     this.isArray(message);
 
     if (!this.value.includes(value)) {
@@ -255,7 +265,7 @@ export default class Validation {
     return this;
   }
 
-  notHaveValue(value: any, message = this.defaultMessage): Validation {
+  notHasValue(value: any, message = this.defaultMessage): Validation {
     this.isArray(message);
 
     if (this.value.includes(value)) {
@@ -300,6 +310,16 @@ export default class Validation {
   predicate(predicate: (value: any) => boolean, message = this.defaultMessage): Validation {
     if (!predicate(this.value)) {
       throw new Error(message ?? 'Value must satisfy predicate');
+    }
+
+    return this;
+  }
+
+  startsWith(value: any, message = this.defaultMessage): Validation {
+    this.notEmpty(value);
+
+    if (!this.value.startsWith(value)) {
+      throw new Error(message ?? `Value must start with ${ value }`);
     }
 
     return this;
