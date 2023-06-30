@@ -1,5 +1,5 @@
 export default class Validation {
-  constructor(private value: any, private defaultMessage = '') {
+  constructor(private value: any, private defaultMessage?: string) {
   }
 
   between(min: number, max: number, message = this.defaultMessage): Validation {
