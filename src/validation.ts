@@ -1,337 +1,347 @@
 export default class Validation {
-  constructor(private value: any, private message?: null | string) {
+  constructor(private value: any, private error?: null | string | Error) {
   }
 
-  between(min: number, max: number, message = this.message): Validation {
-    this.isNumber(message);
+  between(min: number, max: number, error = this.error): Validation {
+    this.isNumber(error);
 
     if (this.value < min || this.value > max) {
-      throw new Error(message || `Value must be between ${ min } and ${ max }`);
+      this.throwError(error || `Value must be between ${ min } and ${ max }`);
     }
 
     return this;
   }
 
-  contains(value: any, message = this.message): Validation {
-    this.notNull(message);
+  contains(value: any, error = this.error): Validation {
+    this.notNull(error);
 
     if (!this.value.includes(value)) {
-      throw new Error(message || `Value ${ this.value } must contain ${ value }`);
+      this.throwError(error || `Value ${ this.value } must contain ${ value }`);
     }
 
     return this;
   }
 
-  empty(message = this.message): Validation {
+  empty(error = this.error): Validation {
     if (this.value && this.value !== '' && this.value.length !== 0) {
-      throw new Error(message || `Value ${ this.value } must be empty`);
+      this.throwError(error || `Value ${ this.value } must be empty`);
     }
 
     return this;
   }
 
-  emptyOrWhitespace(message = this.message): Validation {
-    this.empty(message);
+  emptyOrWhitespace(error = this.error): Validation {
+    this.empty(error);
 
     if (this.value.trim().length !== 0) {
-      throw new Error(message || `Value ${ this.value } must be empty or whitespace`);
+      this.throwError(error || `Value ${ this.value } must be empty or whitespace`);
     }
 
     return this;
   }
 
-  endsWith(value: any, message = this.message): Validation {
-    this.notNull(message);
+  endsWith(value: any, error = this.error): Validation {
+    this.notNull(error);
 
     if (!this.value.endsWith(value)) {
-      throw new Error(message || `Value ${ this.value } must end with ${ value }`);
+      this.throwError(error || `Value ${ this.value } must end with ${ value }`);
     }
 
     return this;
   }
 
-  equals(value: any, message = this.message): Validation {
+  equals(value: any, error = this.error): Validation {
     if (this.value !== value) {
-      throw new Error(message || `Value ${ this.value } must be equal to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be equal to ${ value }`);
     }
 
     return this;
   }
 
-  equivalent(value: any, message = this.message): Validation {
+  equivalent(value: any, error = this.error): Validation {
     if (this.value?.toLowerCase() != value?.toLowerCase()) {
-      throw new Error(message || `Value ${ this.value } must be equivalent to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be equivalent to ${ value }`);
     }
 
     return this;
   }
 
-  greaterThan(value: any, message = this.message): Validation {
-    this.isNumber(message);
+  greaterThan(value: any, error = this.error): Validation {
+    this.isNumber(error);
 
     if (this.value <= value) {
-      throw new Error(message || `Value ${ this.value } must be greater than ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be greater than ${ value }`);
     }
 
     return this;
   }
 
-  greaterThanOrEqual(value: any, message = this.message): Validation {
-    this.isNumber(message);
+  greaterThanOrEqual(value: any, error = this.error): Validation {
+    this.isNumber(error);
 
     if (this.value < value) {
-      throw new Error(message || `Value ${ this.value } must be greater than or equal to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be greater than or equal to ${ value }`);
     }
 
     return this;
   }
 
-  hasValue(value: any, message = this.message): Validation {
-    this.isArray(message);
+  hasValue(value: any, error = this.error): Validation {
+    this.isArray(error);
 
     if (!this.value.includes(value)) {
-      throw new Error(message || `Value ${ this.value } must have value ${ value }`);
+      this.throwError(error || `Value ${ this.value } must have value ${ value }`);
     }
 
     return this;
   }
 
-  hasProperty(property: string, message = this.message): Validation {
+  hasProperty(property: string, error = this.error): Validation {
     if (!this.value.hasOwnProperty(property)) {
-      throw new Error(message || `Value ${ this.value } must have property ${ property }`);
+      this.throwError(error || `Value ${ this.value } must have property ${ property }`);
     }
 
     return this;
   }
 
-  isArray(message = this.message): Validation {
+  isArray(error = this.error): Validation {
     if (!Array.isArray(this.value)) {
-      throw new Error(message || `Value ${ this.value } must be an array`);
+      this.throwError(error || `Value ${ this.value } must be an array`);
     }
 
     return this;
   }
 
-  isCreditCard(message = this.message): Validation {
-    message = message || `Value ${ this.value } must be a credit card number`;
-    this.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/, message);
+  isCreditCard(error = this.error): Validation {
+    error = error || `Value ${ this.value } must be a credit card number`;
+    this.matches(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/, error);
     return this;
   }
 
-  isDate(message = this.message): Validation {
+  isDate(error = this.error): Validation {
     if (isNaN(Date.parse(this.value))) {
-      throw new Error(message || `Value ${ this.value } must be a date`);
+      this.throwError(error || `Value ${ this.value } must be a date`);
     }
 
     return this;
   }
 
-  isEmail(message = this.message): Validation {
-    message = message || `Value ${ this.value } must be an email address`;
-    this.matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, message);
+  isEmail(error = this.error): Validation {
+    error = error || `Value ${ this.value } must be an email address`;
+    this.matches(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/, error);
     return this;
   }
 
-  isFalse(message = this.message): Validation {
+  isFalse(error = this.error): Validation {
     if (!this.value) {
-      throw new Error(message || `Value ${ this.value } must be false`);
+      this.throwError(error || `Value ${ this.value } must be false`);
     }
 
     return this;
   }
 
-  isNull(message = this.message): Validation {
+  isNull(error = this.error): Validation {
     if (this.value != null) {
-      throw new Error(message || `Value ${ this.value } must be null`);
+      this.throwError(error || `Value ${ this.value } must be null`);
     }
 
     return this;
   }
 
-  isNumber(message = this.message): Validation {
+  isNumber(error = this.error): Validation {
     if (isNaN(this.value)) {
-      throw new Error(message || `Value ${ this.value } must be a number`);
+      this.throwError(error || `Value ${ this.value } must be a number`);
     }
 
     return this;
   }
 
-  isRequired(message = this.message): Validation {
-    this.notNull(message);
-    this.notEmpty(message);
-    this.minLength(1, message);
+  isRequired(error = this.error): Validation {
+    this.notNull(error);
+    this.notEmptyOrWhitespace(error);
+    this.minLength(1, error);
     return this;
   }
 
-  isTrue(message = this.message): Validation {
+  isTrue(error = this.error): Validation {
     if (!this.value) {
-      throw new Error(message || `Value ${ this.value } must be true`);
+      this.throwError(error || `Value ${ this.value } must be true`);
     }
 
     return this;
   }
 
-  length(length: number, message = this.message): Validation {
+  length(length: number, error = this.error): Validation {
     if (this.value.length !== length) {
-      throw new Error(message || `Value ${ this.value } must have length ${ length }`);
+      this.throwError(error || `Value ${ this.value } must have length ${ length }`);
     }
 
     return this;
   }
 
-  lessThan(value: any, message = this.message): Validation {
-    this.isNumber(message);
+  lessThan(value: any, error = this.error): Validation {
+    this.isNumber(error);
 
     if (this.value >= value) {
-      throw new Error(message || `Value ${ this.value } must be less than ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be less than ${ value }`);
     }
 
     return this;
   }
 
-  lessThanOrEqual(value: any, message = this.message): Validation {
-    this.isNumber(message);
+  lessThanOrEqual(value: any, error = this.error): Validation {
+    this.isNumber(error);
 
     if (this.value > value) {
-      throw new Error(message || `Value ${ this.value } must be less than or equal to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must be less than or equal to ${ value }`);
     }
 
     return this;
   }
 
-  matches(regex: RegExp, message = this.message): Validation {
+  matches(regex: RegExp, error = this.error): Validation {
     if (!regex.test(this.value)) {
-      throw new Error(message || `Value ${ this.value } must match ${ regex }`);
+      this.throwError(error || `Value ${ this.value } must match ${ regex }`);
     }
 
     return this;
   }
 
-  maxLength(length: number, message = this.message): Validation {
+  maxLength(length: number, error = this.error): Validation {
     if (this.value.length > length) {
-      throw new Error(message || `Value ${ this.value } must have max length ${ length }`);
+      this.throwError(error || `Value ${ this.value } must have max length ${ length }`);
     }
 
     return this;
   }
 
-  minLength(length: number, message = this.message): Validation {
+  minLength(length: number, error = this.error): Validation {
     if (this.value.length < length) {
-      throw new Error(message || `Value ${ this.value } must have min length ${ length }`);
+      this.throwError(error || `Value ${ this.value } must have min length ${ length }`);
     }
 
     return this;
   }
 
-  notContains(value: any, message = this.message): Validation {
-    this.notNull(message);
+  notContains(value: any, error = this.error): Validation {
+    this.notNull(error);
 
     if (this.value.includes(value)) {
-      throw new Error(message || `Value ${ this.value } must not contain ${ value }`);
+      this.throwError(error || `Value ${ this.value } must not contain ${ value }`);
     }
 
     return this;
   }
 
-  notFalse(message = this.message): Validation {
+  notFalse(error = this.error): Validation {
     if (!this.value) {
-      throw new Error(message || `Value ${ this.value } must not be false`);
+      this.throwError(error || `Value ${ this.value } must not be false`);
     }
 
     return this;
   }
 
-  notEmpty(message = this.message): Validation {
+  notEmpty(error = this.error): Validation {
     if (!this.value || this.value === '' || this.value.length === 0) {
-      throw new Error(message || `Value ${ this.value } must not be empty`);
+      this.throwError(error || `Value ${ this.value } must not be empty`);
     }
 
     return this;
   }
 
-  notEmptyOrWhitespace(message = this.message): Validation {
-    this.notEmpty(message);
+  notEmptyOrWhitespace(error = this.error): Validation {
+    this.notEmpty(error);
 
     if (this.value.trim().length === 0) {
-      throw new Error(message || `Value ${ this.value } must not be empty or whitespace`);
+      this.throwError(error || `Value ${ this.value } must not be empty or whitespace`);
     }
 
     return this;
   }
 
-  notEquals(value: any, message = this.message): Validation {
+  notEquals(value: any, error = this.error): Validation {
     if (this.value === value) {
-      throw new Error(message || `Value ${ this.value } must not be equal to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must not be equal to ${ value }`);
     }
 
     return this;
   }
 
-  notEquivalent(value: any, message = this.message): Validation {
+  notEquivalent(value: any, error = this.error): Validation {
     if (this.value?.toLowerCase() == value?.toLowerCase()) {
-      throw new Error(message || `Value ${ this.value } must not be equivalent to ${ value }`);
+      this.throwError(error || `Value ${ this.value } must not be equivalent to ${ value }`);
     }
 
     return this;
   }
 
-  notHasValue(value: any, message = this.message): Validation {
-    this.isArray(message);
+  notHasValue(value: any, error = this.error): Validation {
+    this.isArray(error);
 
     if (this.value.includes(value)) {
-      throw new Error(message || `Value ${ this.value } must not have value ${ value }`);
+      this.throwError(error || `Value ${ this.value } must not have value ${ value }`);
     }
 
     return this;
   }
 
-  notNull(message = this.message): Validation {
+  notNull(error = this.error): Validation {
     if (this.value == null) {
-      throw new Error(message || `Value ${ this.value } must not be null`);
+      this.throwError(error || `Value ${ this.value } must not be null`);
     }
 
     return this;
   }
 
-  notSameAs(value: any, message = this.message): Validation {
+  notSameAs(value: any, error = this.error): Validation {
     if (this.value === value) {
-      throw new Error(message || `Value ${ this.value } must not be the same as ${ value }`);
+      this.throwError(error || `Value ${ this.value } must not be the same as ${ value }`);
     }
 
     return this;
   }
 
-  notTrue(message = this.message): Validation {
+  notTrue(error = this.error): Validation {
     if (this.value) {
-      throw new Error(message || `Value ${ this.value } must not be true`);
+      this.throwError(error || `Value ${ this.value } must not be true`);
     }
 
     return this;
   }
 
-  oneOf(values: any[], message = this.message): Validation {
+  oneOf(values: any[], error = this.error): Validation {
     if (!values.includes(this.value)) {
-      throw new Error(message || `Value ${ this.value } must be one of ${ values }`);
+      this.throwError(error || `Value ${ this.value } must be one of ${ values }`);
     }
 
     return this;
   }
 
-  predicate(predicate: (value: any) => boolean, message = this.message): Validation {
+  predicate(predicate: (value: any) => boolean, error = this.error): Validation {
     if (!predicate(this.value)) {
-      throw new Error(message || `Value ${ this.value } must satisfy predicate`);
+      this.throwError(error || `Value ${ this.value } must satisfy predicate`);
     }
 
     return this;
   }
 
-  startsWith(value: any, message = this.message): Validation {
+  startsWith(value: any, error = this.error): Validation {
     this.notEmpty(value);
 
     if (!this.value.startsWith(value)) {
-      throw new Error(message || `Value ${ this.value } must start with ${ value }`);
+      this.throwError(error || `Value ${ this.value } must start with ${ value }`);
     }
 
     return this;
+  }
+
+  private throwError(error: string | Error) {
+    error ??= 'Validation error'
+
+    if (typeof error === 'string') {
+      throw new Error(error);
+    } else {
+      throw error;
+    }
   }
 }
