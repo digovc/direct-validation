@@ -5,7 +5,7 @@ export default class Validation {
   between(min: number, max: number, error = this.error): Validation {
     this.isNumber(error);
 
-    if (this.value < min || this.value > max) {
+    if (this.value <= min || this.value >= max) {
       this.throwError(error || `Value must be between ${ min } and ${ max }`);
     }
 
@@ -208,7 +208,7 @@ export default class Validation {
   }
 
   maxLength(length: number, error = this.error): Validation {
-    if (this.value.length > length) {
+    if (this.value.length >= length) {
       this.throwError(error || `Value ${ this.value } must have max length ${ length }`);
     }
 
@@ -216,7 +216,7 @@ export default class Validation {
   }
 
   minLength(length: number, error = this.error): Validation {
-    if (this.value.length < length) {
+    if (this.value.length <= length) {
       this.throwError(error || `Value ${ this.value } must have min length ${ length }`);
     }
 
