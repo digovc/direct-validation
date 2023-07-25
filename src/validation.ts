@@ -133,7 +133,7 @@ export default class Validation {
   }
 
   isFalse(error = this.error): Validation {
-    if (!this.value) {
+    if (this.value) {
       this.throwError(error || `Value ${ this.value } must be false`);
     }
 
