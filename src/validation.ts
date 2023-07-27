@@ -5,7 +5,7 @@ export default class Validation {
   between(min: number, max: number, error = this.error): Validation {
     this.isNumber(error);
 
-    if (this.value <= min || this.value >= max) {
+    if (this.value < min || this.value > max) {
       this.throwError(error || `Value must be between ${ min } and ${ max }`);
     }
 
@@ -31,9 +31,7 @@ export default class Validation {
   }
 
   emptyOrWhitespace(error = this.error): Validation {
-    this.empty(error);
-
-    if (this.value.trim().length !== 0) {
+    if (this.value && this.value.trim().length !== 0) {
       this.throwError(error || `Value ${ this.value } must be empty or whitespace`);
     }
 
@@ -59,7 +57,7 @@ export default class Validation {
   }
 
   equivalent(value: any, error = this.error): Validation {
-    if (this.value?.toLowerCase() != value?.toLowerCase()) {
+    if (this.value?.toString().toLowerCase() != value?.toString().toLowerCase()) {
       this.throwError(error || `Value ${ this.value } must be equivalent to ${ value }`);
     }
 
