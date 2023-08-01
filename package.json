@@ -4,7 +4,7 @@
   "description": "A simple JavaScript/TypeScript lib to make validation in fluent way with exceptions.",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./lib && tsc",
+    "build": "rimraf ./lib && rimraf ./test && tsc",
     "publish_organize": "mv ./lib/* ./ && rm -rf ./lib",
     "test": "mocha"
   },
