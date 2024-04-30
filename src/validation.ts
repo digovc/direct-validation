@@ -1,5 +1,5 @@
 export default class Validation {
-  constructor(private value: any, private error?: null | string | Error) {
+  constructor(private value: any, private error?: any) {
   }
 
   between(min: number, max: number, error = this.error): Validation {
@@ -147,7 +147,7 @@ export default class Validation {
   }
 
   isNumber(error = this.error): Validation {
-    if (isNaN(this.value)) {
+    if (isNaN(this.value) || typeof this.value !== 'number') {
       this.throwError(error || `Value ${ this.value } must be a number`);
     }
 
