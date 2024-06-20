@@ -5,3 +5,4 @@ const validate = (value: any, defaultMessage = '') => {
 }
 
 export default validate;
+export { validate };
